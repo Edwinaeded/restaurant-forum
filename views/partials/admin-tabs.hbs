@@ -1,8 +1,8 @@
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/admin/restaurants">Restaurants</a>
+    <a class="nav-link {{#if (eq currentTab 'tabRestaurants')}}active{{/if}}" aria-current="page" href="/admin/restaurants">Restaurants</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/admin/users">Users</a>
+    <a class="nav-link {{#if (eq currentTab 'tabUsers')}}active{{/if}}" href="/admin/users">Users</a>
   </li>
 </ul>
