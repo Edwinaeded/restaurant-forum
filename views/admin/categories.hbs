@@ -1,4 +1,10 @@
 {{> admin-tabs route='categories'}}
+<br />
+<form action="/admin/categories" method="POST">
+  <input type="text" name="name" placeholder="Create a category...">
+  <button type="submit" class="btn btn-success">Create</button>
+</form>
+<br />
 <table class="table align-middle">
   <thead class="thead-dark">
     <tr>
