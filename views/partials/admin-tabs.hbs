@@ -1,8 +1,13 @@
+<h1>餐廳後台</h1>
+<br />
 <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link {{#if (eq currentTab 'tabRestaurants')}}active{{/if}}" aria-current="page" href="/admin/restaurants">Restaurants</a>
   </li>
   <li class="nav-item">
     <a class="nav-link {{#if (eq currentTab 'tabUsers')}}active{{/if}}" href="/admin/users">Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {{#ifCond route 'categories'}}active{{/ifCond}}" href="/admin/categories">Categories</a>
   </li>
 </ul>
