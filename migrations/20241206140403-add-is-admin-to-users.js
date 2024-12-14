@@ -9,6 +9,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.remove('Users', 'is_admin')
+    await queryInterface.removeColumn('Users', 'is_admin')
   }
 }
