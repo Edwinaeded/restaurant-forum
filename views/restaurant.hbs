@@ -7,12 +7,13 @@
     <img class="img-responsive center-block" src="{{restaurant.image}}"
       style="width: 250px; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
     <br>
-    <div class="well">
+    <div class="well" style="margin-bottom: 20px;">
       <ul class="list-unstyled">
         <li><strong>Opening Hour:</strong> {{restaurant.openingHours}}</li>
         <li><strong>Tel:</strong> {{restaurant.tel}}</li>
         <li><strong>Address:</strong> {{restaurant.address}}</li>
       </ul>
+      <a class="btn btn-primary" href="/restaurants/{{restaurant.id}}/dashboard">Dashboard</a>
     </div>
   </div>
   <div class="col-md-8">
