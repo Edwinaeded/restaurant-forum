@@ -12,7 +12,6 @@ router.use('/admin', adminAuthenticated, admin)
 
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
-
 router.get('/signin', userController.signInPage)
 router.post('/signin', passport.authenticate('local', {
   failureRedirect: '/signin',
