@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const { User } = db
+const { getUser } = require('../helpers/auth-helpers')
+const { localFileHandler } = require('../helpers/file-helpers')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -36,6 +38,54 @@ const userController = {
     req.flash('success_messages', '登出成功！')
     req.logout()
     res.redirect('/signin')
+  },
+  getUser: (req, res, next) => {
+    const currentUser = getUser(req)
+
+    return User.findByPk(req.params.id, {
+      raw: true
+    })
+      .then(user => {
+        if (!user) throw new Error('User does not exist or do not have permission!')
+        if (user.id !== currentUser.id) throw new Error('User does not exist or do not have permission!')
+        return res.render('users/profile', { user })
+      })
+      .catch(err => next(err))
+  },
+  editUser: (req, res, next) => {
+    const currentUser = getUser(req)
+
+    return User.findByPk(req.params.id, {
+      raw: true
+    })
+      .then(user => {
+        if (!user) throw new Error('User does not exist or do not have permission!')
+        if (user.id !== currentUser.id) throw new Error('User does not exist or do not have permission!')
+        return res.render('users/edit', { user })
+      })
+      .catch(err => next(err))
+  },
+  putUser: (req, res, next) => {
+    const currentUser = getUser(req)
+    const { name } = req.body
+    if (!name) throw new Error('Name is required!')
+
+    const { file } = req
+
+    return Promise.all([
+      User.findByPk(req.params.id),
+      localFileHandler(file)
+    ])
+      .then(([user, filePath]) => {
+        if (!user) throw new Error('User does not exist or do not have permission!')
+        if (user.id !== currentUser.id) throw new Error('User does not exist or do not have permission!')
+        return user.update({ name, image: filePath || user.image })
+      })
+      .then(updatedUser => {
+        req.flash('success_messages', '使用者資料編輯成功')
+        return res.redirect(`/users/${updatedUser.id}`)
+      })
+      .catch(err => next(err))
   }
 }
 

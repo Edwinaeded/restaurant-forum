@@ -1,0 +1,11 @@
+<form class="form-editProfile" action="/users/{{ user.id }}?_method=PUT" method="POST" enctype="multipart/form-data">
+  <div class="form-row mb-3">
+    <label class="form-label" for="name">Name</label>
+    <input class="form-control" id="name" type="text" name="name" class="form-control" value="{{ user.name }}">
+  </div>
+  <div class="form-row mb-3">
+    <label class="form-label" for="image">Image</label>
+    <input class="form-control" id="image" type="file" name="image" class="form-control">
+  </div>
+  <button class="btn btn-primary btn-block" type="submit">Submit</button>
+</form>

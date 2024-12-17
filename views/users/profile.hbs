@@ -1,0 +1,19 @@
+<div class="card mb-3" style="width: 1300px; height: 400px;">
+  <div class="card-body row">
+    <div class="col-4">
+      {{#if user.image}}
+      <img class="img-responsive center-block" src="{{ user.image }}"
+        style="width: 350px;">
+      {{else}}
+      <div style="width: 350px; height: 350px; background-color: #dedcdb; display: flex; 
+  justify-content: center; align-items: center; text-align: center; color: #9C9C9C; font-size: 20px;">Update Now</div>
+      {{/if}}
+    </div>
+    <div class="col-8">
+      <h2>{{ user.name }}</h2>
+      <p>{{ user.email }}</p>
+      <a class="btn btn-primary" href="/users/{{ user.id }}/edit">Edit</a>
+    </div>
+    
+  </div>
+</div>
