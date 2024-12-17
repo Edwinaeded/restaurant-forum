@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
-const { User } = db
+const { User, Comment, Restaurant } = db
 const { getUser } = require('../helpers/auth-helpers')
 const { localFileHandler } = require('../helpers/file-helpers')
 
@@ -41,14 +41,16 @@ const userController = {
   },
   getUser: (req, res, next) => {
     const currentUser = getUser(req)
-
-    return User.findByPk(req.params.id, {
-      raw: true
-    })
-      .then(user => {
+    return Promise.all([
+      User.findByPk(req.params.id, {
+        include: [{ model: Comment, include: Restaurant }]
+      }),
+      Comment.findAndCountAll({ where: { userId: req.params.id } })
+    ])
+      .then(([user, comments]) => {
         if (!user) throw new Error('User does not exist or do not have permission!')
         if (user.id !== currentUser.id) throw new Error('User does not exist or do not have permission!')
-        return res.render('users/profile', { user })
+        return res.render('users/profile', { user: user.toJSON(), commentsCount: comments.count })
       })
       .catch(err => next(err))
   },

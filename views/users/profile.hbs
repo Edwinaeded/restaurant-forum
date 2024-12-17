@@ -5,8 +5,10 @@
       <img class="img-responsive center-block" src="{{ user.image }}"
         style="width: 350px;">
       {{else}}
+      <a href="/users/{{ user.id }}/edit" style="text-decoration: none;">
       <div style="width: 350px; height: 350px; background-color: #dedcdb; display: flex; 
   justify-content: center; align-items: center; text-align: center; color: #9C9C9C; font-size: 20px;">Update Now</div>
+      </a>
       {{/if}}
     </div>
     <div class="col-8">
@@ -14,6 +16,22 @@
       <p>{{ user.email }}</p>
       <a class="btn btn-primary" href="/users/{{ user.id }}/edit">Edit</a>
     </div>
-    
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">{{ commentsCount }} 筆餐廳評論</div>
+  <div class="card-body">
+    {{#if user.Comments}}
+      {{#each user.Comments}}
+      <div style="display:inline">
+        <a href="/restaurants/{{ this.restaurantId }}" style="text-decoration: none;">
+          <img style="width: 100px;" src="{{ this.Restaurant.image }}">
+        </a>
+      </div>
+      {{/each}}
+    {{else}}
+    <div style="height: 70px; display: flex; align-items: center;">尚未留下任何評論</div>
+    {{/if}}
   </div>
 </div>
