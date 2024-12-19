@@ -40,7 +40,6 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
-    const currentUser = getUser(req)
     return Promise.all([
       User.findByPk(req.params.id, {
         include: [{ model: Comment, include: Restaurant }]
@@ -48,8 +47,7 @@ const userController = {
       Comment.findAndCountAll({ where: { userId: req.params.id } })
     ])
       .then(([user, comments]) => {
-        if (!user) throw new Error('User does not exist or do not have permission!')
-        if (user.id !== currentUser.id) throw new Error('User does not exist or do not have permission!')
+        if (!user) throw new Error('User does not exist!')
         return res.render('users/profile', { user: user.toJSON(), commentsCount: comments.count })
       })
       .catch(err => next(err))
@@ -155,6 +153,20 @@ const userController = {
         like.destroy()
       })
       .then(() => res.redirect('back'))
+      .catch(err => next(err))
+  },
+  getTopUsers: (req, res, next) => {
+    User.findAll({
+      include: [{ model: User, as: 'Followers' }]
+    })
+      .then(users => {
+        users = users.map(user => ({
+          ...user.toJSON(),
+          followerCount: user.Followers.length,
+          isFollowed: req.user.Followings.some(f => f.id === user.id)
+        }))
+        res.render('top-users', { users: users })
+      })
       .catch(err => next(err))
   }
 }
