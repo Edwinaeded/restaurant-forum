@@ -14,6 +14,19 @@ const adminServices = {
         })
       })
       .catch(err => callback(err))
+  },
+  deleteRestaurant: (req, callback) => {
+    Restaurant.findByPk(req.params.id)
+      .then(restaurant => {
+        if (!restaurant) {
+          const err = new Error('Restaurant do not exist!')
+          err.status = 404
+          throw err
+        }
+        return restaurant.destroy()
+      })
+      .then(deletedRestaurant => callback(null, { deletedRestaurant }))
+      .catch(err => callback(err))
   }
 }
 

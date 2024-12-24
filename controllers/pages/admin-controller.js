@@ -83,16 +83,12 @@ const adminController = {
       .catch(err => next(err))
   },
   deleteRestaurant: (req, res, next) => {
-    Restaurant.findByPk(req.params.id)
-      .then(restaurant => {
-        if (!restaurant) throw new Error('Restaurant do not exist!')
-        return restaurant.destroy()
-      })
-      .then(() => {
-        req.flash('success_messages', 'Restaurant has been deleted successfully!')
-        res.redirect('/admin/restaurants')
-      })
-      .catch(err => next(err))
+    adminServices.deleteRestaurant(req, (err, data) => {
+      if (err) return next(err)
+      req.session.deletedData = data
+      req.flash('success_messages', 'Restaurant has been deleted successfully!')
+      return res.redirect('/admin/restaurants')
+    })
   },
   getUsers: (req, res, next) => {
     return User.findAll({
