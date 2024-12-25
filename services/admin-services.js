@@ -1,4 +1,5 @@
 const { Restaurant, Category } = require('../models')
+const { localFileHandler } = require('../helpers/file-helpers')
 
 const adminServices = {
   getRestaurants: (req, callback) => {
@@ -15,6 +16,24 @@ const adminServices = {
       })
       .catch(err => callback(err))
   },
+  postRestaurant: (req, callback) => {
+    const { name, tel, address, openingHours, description, categoryId } = req.body
+    if (!name) throw new Error('Restaurant name is required!')
+
+    const { file } = req
+    localFileHandler(file)
+      .then(filePath => Restaurant.create({
+        name,
+        tel,
+        address,
+        openingHours,
+        description,
+        image: filePath || null,
+        categoryId
+      }))
+      .then(newRestaurant => callback(null, { restaurant: newRestaurant }))
+      .catch(err => callback(err))
+  },
   deleteRestaurant: (req, callback) => {
     Restaurant.findByPk(req.params.id)
       .then(restaurant => {
@@ -25,7 +44,7 @@ const adminServices = {
         }
         return restaurant.destroy()
       })
-      .then(deletedRestaurant => callback(null, { deletedRestaurant }))
+      .then(deletedRestaurant => callback(null, { restaurant: deletedRestaurant }))
       .catch(err => callback(err))
   }
 }
