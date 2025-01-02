@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const path = require('path')
 const express = require('express')
 const handlebars = require('express-handlebars')
@@ -8,7 +10,6 @@ const passport = require('./config/passport')
 const { getUser } = require('./helpers/auth-helpers')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const { pages, apis } = require('./routes')
-require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT || 3000
