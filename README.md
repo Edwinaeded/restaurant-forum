@@ -1,52 +1,55 @@
-# README
+# Restaurant Forum
+A simple web application for restaurant recommendations and searches.
 
-1. Fork
-2. git clone
+## Features
+### User
+* View all restaurants and the top 10 restaurants
+* Collect and un-collect restaurants 
+* Follow and unfollow other users
+* View the newest restaurants and comments
+* Edit personal profile details (name / avatar)
 
-## 初始化
-### Initialize
+### Administrator
+* Manage restaurant list
+* Manage user permissions
+* Manage the restaurant catecories
+
+## Installation
+### Prerequisites
+- Ensure you have **Node.js (v18.15.0)** and **npm** installed.
+
+### Steps
+1. Clone the repository
 ```
-git remote add upstream https://github.com/ALPHACamp/forum-express-grading.git  # 建立上游連線
+git clone https://github.com/Edwinaeded/restaurant-forum.git
+```
+2. Navigate to the project directory
+```
+cd restaurant-forum
+```
+3. Install dependencies
+```
 npm install
 ```
+4. Set up environment variables in a `.env` file (see `.env.example` for reference)
 
-### 設定資料庫
-需要與 config/config.json 一致
-
+5. Create database  
+   Ensure your database server (e.g., MySQL) is running, then create a new database.  
+   If using Sequelize, you can run:
 ```
-create database forum;
+npx sequelize db:create
+``` 
+
+6. Run migrations to set up the database schema
 ```
-
-### 執行測試
+npx sequelize db:migrate
 ```
-npm run test
+7. (Optional) Seed database
 ```
-
-## 下載作業規格
-以 R01 為例
-
+npx sequelize db:seed:all
 ```
-git checkout -b R01           # 開新分支
-git merge origin/R01-test     # 下載作業規格
-npm run test                  # 直到綠燈全亮
-
-git add .
-git commit -m "...."
+8. Start the development server
 ```
-
-## 繳交作業
-
+npm run dev
 ```
-git push origin R01           # 上傳本地進度
-```
-
-接著改成到 GitHub 來發 PR。
-
-## 共用帳號
-請一律設定下面 2 組帳號以利驗收：
-* 第一組帳號有 admin 權限：
-  * email: root@example.com
-  * password: 12345678
-* 第二組帳號沒有 admin 權限：
-  * email: user1@example.com
-  * password: 12345678
+9. Access the application at http://localhost:3000
